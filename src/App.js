@@ -60,6 +60,12 @@ function App() {
 
             <hr />
 
+            {query.length > 0 && filteredProfessorList.length === 0 &&
+                <div style={{ color: 'red' }}>
+                    검색어 {query}에 대한 검색결과가 없습니다.
+                </div>
+            }
+
             <ProfessorList professorList={filteredProfessorList} />
             <hr/>
             현재 상탯값 : {JSON.stringify(state)}
