@@ -1,14 +1,25 @@
 import React from 'react';
 
-function ProfessorList(props) {
-    console.log(props);
-    // const key1 = props.key1;
-    const { key1 } = props;
+
+const Professor = ({ professor }) => {
+    return (
+        <li>
+            {professor.name}
+            {professor.phone}
+        </li>
+    );
+};
+
+
+function ProfessorList({ professorList }) {
     return (
         <div>
             <h2>교수 목록</h2>
-            ...
-            {JSON.stringify(key1)}
+            {
+                professorList.map(professor =>
+                    <Professor professor={professor} />
+                )
+            }
         </div>
     );
 }

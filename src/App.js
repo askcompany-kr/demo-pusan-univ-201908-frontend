@@ -12,7 +12,7 @@ function App() {
     return (
         <div>
             Hello React
-            <ProfessorList key1={professorList} />
+            <ProfessorList professorList={professorList} />
         </div>
     );
 }
