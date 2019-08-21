@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Link, NavLink, Route, Switch} from 'react-router-dom';
 import './App.css';
 
 const HomePage = () => <div>HomePage</div>;
@@ -25,17 +25,21 @@ const ProfessorDetailPage = ({ match }) => {
 
 const RouteNoMatch = () => <div>404 Page Not Found.</div>;
 
+const activeStyle = {
+    backgroundColor: 'yellow'
+};
+
 function App() {
     return (
         <BrowserRouter>
             <div>
                 <h1>라우팅 샘플</h1>
 
-                <Link to="/">Home</Link>
+                <NavLink to="/" activeStyle={activeStyle}>Home</NavLink>
                 |
-                <Link to="/posts">포스팅목록</Link>
+                <NavLink to="/posts" activeStyle={activeStyle}>포스팅목록</NavLink>
                 |
-                <Link to="/professor">교수목록</Link>
+                <NavLink to="/professor" activeStyle={activeStyle}>교수목록</NavLink>
                 <hr />
                 <Switch>
                     <Route exact path="/" component={HomePage} />
