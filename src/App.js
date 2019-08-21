@@ -16,57 +16,51 @@ function App() {
 
     const { query, professorList } = state;
 
-    // - intpus: 안 쓰면     => 매 render 완료시마다 호출
-    // - inputs: []         =>  컴포넌트가 생성될 때, 1회만 호출
-    // - inputs: [어떤상탯값] => 그 상태값이 변경될 때마다, 호출
-    useEffect(() => {
-        const fetchList = async () => {
-            const url = "http://localhost:8000/univ/professor.json";
-            const { data } = await Axios.get(url);
-            console.log(data);
-            setState({
-                ...state,  // 클래스형 컴포넌트에서는 불필요
-                professorList: data
-            });
-        };
-        fetchList();
-    }, []);
-
-    // 상탯값 query가 변경이 되면,
-    // professorList를 필터링해서, 새로운 filteredProfessorList 배열을 만들겠다.
-    const filteredProfessorList = useMemo(() => {
-        return professorList.filter(professor =>
-            (query.length === 0) ||
-                (professor.name.indexOf(query) > -1)
-        )
-    }, [query, professorList]);
+    const fetchList = async (params) => {
+        const url = "http://localhost:8000/univ/professor.json";
+        const { data } = await Axios.get(url, {params});
+        console.log(data);
+        setState({
+            ...state,  // 클래스형 컴포넌트에서는 불필요
+            professorList: data
+        });
+    };
 
     const onChange = e => {
-        // const query = e.target.value;
-        const { value } = e.target;
-        console.log(value);
+        const {value} = e.target;
         setState({
-            ...state,  // 클래스형 컴포넌트에서는 불필요.
-            query: value
+            ...state,
+            query: value,
         });
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log("현재 query :", query);
+        if (query.length === 0) {
+            setState({
+                ...state,
+                professorList: []
+            });
+        }
+        else {
+            fetchList({ query })
+        }
     };
 
     return (
         <div>
             Hello React
             <hr />
-
-            <input type="text" onChange={onChange} />
+            <form onSubmit={onSubmit}>
+                <input type="text" onChange={onChange} />
+                {/*<input type="submit" value="검색" />*/}
+                <button>검색</button>
+            </form>
 
             <hr />
 
-            {query.length > 0 && filteredProfessorList.length === 0 &&
-                <div style={{ color: 'red' }}>
-                    검색어 {query}에 대한 검색결과가 없습니다.
-                </div>
-            }
-
-            <ProfessorList professorList={filteredProfessorList} />
+            <ProfessorList professorList={professorList} />
             <hr/>
             현재 상탯값 : {JSON.stringify(state)}
         </div>
