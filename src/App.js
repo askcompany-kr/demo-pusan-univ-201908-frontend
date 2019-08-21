@@ -1,86 +1,51 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import Axios from 'axios';
-import {produce} from "immer";
+import React from 'react';
+import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
 import './App.css';
-import ProfessorList from "./pages/professor_list";
 
-// 아래 함수는 매 render 시마다 호출이 됩니다.
+const HomePage = () => <div>HomePage</div>;
+const PostListPage = () => <div>PostList 페이지</div>;
+const ProfessorListPage = () =>
+    <div>
+        ProfessorList 페이지
+        <ul>
+            <li><a href="/professor/100">교수님 #100</a></li>
+            <li><a href="/professor/200">교수님 #200</a></li>
+            <li><a href="/professor/300">교수님 #300</a></li>
+            <li><Link to="/professor/400">교수님 #400</Link></li>
+            <li><Link to="/professor/500">교수님 #500</Link></li>
+        </ul>
+    </div>;
+const ProfessorDetailPage = ({ match }) => {
+    const {professor_id} = match.params;
+    // useEffect(() => {
+    //     // const {data} = Axios.get("..../...");
+    // }, [professor_id]);
+    return <div>Professor #{professor_id} Detail 페이지</div>;
+}
+
+const RouteNoMatch = () => <div>404 Page Not Found.</div>;
+
 function App() {
-    // 리액트 컴포넌트에서 UI 관련된 2가지 종류의 값
-    //   - 속성값 : props => 부모로 부터 받는 값들
-    //   - 상탯값 : state => 현재 컴포넌트가 직접 생성/관리하는 값들
-
-    const [state, setState] = useState({
-        query: '',
-        professorList: []
-    });
-
-    const { query, professorList } = state;
-
-    const fetchList = async (params) => {
-        const url = "http://localhost:8000/univ/professor.json";
-        const { data } = await Axios.get(url, {params});
-        console.log(data);
-
-        // state.professorList = [];  // X !!!
-
-        // const newState = {
-        //     query: query,
-        //     professorList: []
-        // };
-
-        // Immutable한 값을 만들어주지만,
-        // 내부에서는 Immutble함을 생각할 필요가 없습니다.
-        const newState = produce(state, draft => {
-            draft.professorList = [];
-        });
-
-        // 함수형 컴포넌트에서는
-        // 전체 상탯값을 매번 지정해줘야합니다.
-        setState(newState);
-
-        // 클래스형 컴포넌트에서는
-        // 변경할 상태값만 지정하면 OK.
-    };
-
-    const onChange = e => {
-        const {value} = e.target;
-        setState({
-            ...state,
-            query: value,
-        });
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        console.log("현재 query :", query);
-        if (query.length === 0) {
-            setState({
-                ...state,
-                professorList: []
-            });
-        }
-        else {
-            fetchList({ query })
-        }
-    };
-
     return (
-        <div>
-            Hello React
-            <hr />
-            <form onSubmit={onSubmit}>
-                <input type="text" onChange={onChange} />
-                {/*<input type="submit" value="검색" />*/}
-                <button>검색</button>
-            </form>
+        <BrowserRouter>
+            <div>
+                <h1>라우팅 샘플</h1>
 
-            <hr />
-
-            <ProfessorList professorList={professorList} />
-            <hr/>
-            현재 상탯값 : {JSON.stringify(state)}
-        </div>
+                <Link to="/">Home</Link>
+                |
+                <Link to="/posts">포스팅목록</Link>
+                |
+                <Link to="/professor">교수목록</Link>
+                <hr />
+                <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/posts" component={PostListPage} />
+                    <Route exact path="/professor/:professor_id" component={ProfessorDetailPage} />
+                    <Route exact path="/professor" component={ProfessorListPage} />
+                    <Route component={RouteNoMatch} />
+                </Switch>
+            </div>
+        </BrowserRouter>
     );
 }
 
