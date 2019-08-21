@@ -10,6 +10,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 function App() {
+    const {pathname} = window.location;
     return (
         <BrowserRouter>
             <Layout>
@@ -18,20 +19,20 @@ function App() {
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        defaultSelectedKeys={['2']}
+                        defaultSelectedKeys={[pathname]}
                         style={{ lineHeight: '64px' }}
                     >
-                        <Menu.Item key="1">
+                        <Menu.Item key="/professor">
                             <Link to="/professor">
                                 교수 목록입니다.
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="2">
+                        <Menu.Item key="/planner">
                             <Link to="/planner">
                                 교수 계획
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="3">
+                        <Menu.Item key="/about">
                             <Link to="/about">
                                 About
                             </Link>
