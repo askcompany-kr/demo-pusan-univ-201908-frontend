@@ -1,44 +1,11 @@
 import React from 'react';
 
-
-const Professor = ({ professor }) => {
+const ProfessorListPage = () => {
     return (
-        <li>
-            {professor.name}
-            {professor.phone}
-        </li>
+        <div>
+            교수목록
+        </div>
     );
 };
 
-
-class ProfessorList extends React.Component {
-    render() {
-        const {professorList} = this.props;
-        return (
-            <div>
-                <h2>교수 목록</h2>
-                {
-                    professorList.map(professor =>
-                        <Professor professor={professor} />
-                    )
-                }
-            </div>
-        );
-    }
-}
-
-
-// function ProfessorList({ professorList }) {
-//     return (
-//         <div>
-//             <h2>교수 목록</h2>
-//             {
-//                 professorList.map(professor =>
-//                     <Professor professor={professor} />
-//                 )
-//             }
-//         </div>
-//     );
-// }
-
-export default ProfessorList;
+export default ProfessorListPage;
