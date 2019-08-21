@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import Axios from 'axios';
+import {produce} from "immer";
 import './App.css';
 import ProfessorList from "./pages/professor_list";
 
@@ -20,10 +21,26 @@ function App() {
         const url = "http://localhost:8000/univ/professor.json";
         const { data } = await Axios.get(url, {params});
         console.log(data);
-        setState({
-            ...state,  // 클래스형 컴포넌트에서는 불필요
-            professorList: data
+
+        // state.professorList = [];  // X !!!
+
+        // const newState = {
+        //     query: query,
+        //     professorList: []
+        // };
+
+        // Immutable한 값을 만들어주지만,
+        // 내부에서는 Immutble함을 생각할 필요가 없습니다.
+        const newState = produce(state, draft => {
+            draft.professorList = [];
         });
+
+        // 함수형 컴포넌트에서는
+        // 전체 상탯값을 매번 지정해줘야합니다.
+        setState(newState);
+
+        // 클래스형 컴포넌트에서는
+        // 변경할 상태값만 지정하면 OK.
     };
 
     const onChange = e => {
