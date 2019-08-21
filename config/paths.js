@@ -84,7 +84,7 @@ module.exports = {
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 
-  bundlePublicPath: 'http://localhost:3000',
+  bundlePublicPath: 'http://localhost:3000/',
   statsDirPath: resolveApp('../backend'),
   statsFilename: 'webpack-stats.json',
 };
