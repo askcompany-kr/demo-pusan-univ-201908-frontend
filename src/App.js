@@ -1,55 +1,104 @@
 import React from 'react';
 import {BrowserRouter, Link, NavLink, Route, Switch} from 'react-router-dom';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import './App.css';
 
-const HomePage = () => <div>HomePage</div>;
-const PostListPage = () => <div>PostList 페이지</div>;
-const ProfessorListPage = () =>
-    <div>
-        ProfessorList 페이지
-        <ul>
-            <li><a href="/professor/100">교수님 #100</a></li>
-            <li><a href="/professor/200">교수님 #200</a></li>
-            <li><a href="/professor/300">교수님 #300</a></li>
-            <li><Link to="/professor/400">교수님 #400</Link></li>
-            <li><Link to="/professor/500">교수님 #500</Link></li>
-        </ul>
-    </div>;
-const ProfessorDetailPage = ({ match }) => {
-    const {professor_id} = match.params;
-    // useEffect(() => {
-    //     // const {data} = Axios.get("..../...");
-    // }, [professor_id]);
-    return <div>Professor #{professor_id} Detail 페이지</div>;
-}
-
-const RouteNoMatch = () => <div>404 Page Not Found.</div>;
-
-const activeStyle = {
-    backgroundColor: 'yellow'
-};
+const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
 
 function App() {
     return (
-        <BrowserRouter>
-            <div>
-                <h1>라우팅 샘플</h1>
-
-                <NavLink to="/" activeStyle={activeStyle}>Home</NavLink>
-                |
-                <NavLink to="/posts" activeStyle={activeStyle}>포스팅목록</NavLink>
-                |
-                <NavLink to="/professor" activeStyle={activeStyle}>교수목록</NavLink>
-                <hr />
-                <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/posts" component={PostListPage} />
-                    <Route exact path="/professor/:professor_id" component={ProfessorDetailPage} />
-                    <Route exact path="/professor" component={ProfessorListPage} />
-                    <Route component={RouteNoMatch} />
-                </Switch>
-            </div>
-        </BrowserRouter>
+        <Layout>
+            <Header className="header">
+                <div className="logo" />
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    defaultSelectedKeys={['2']}
+                    style={{ lineHeight: '64px' }}
+                >
+                    <Menu.Item key="1">
+                        Professor List
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                        Class List
+                    </Menu.Item>
+                    <Menu.Item key="3">
+                        About
+                    </Menu.Item>
+                </Menu>
+            </Header>
+            <Layout>
+                <Sider width={200} style={{ background: '#fff' }}>
+                    <Menu
+                        mode="inline"
+                        defaultSelectedKeys={['1']}
+                        defaultOpenKeys={['sub1']}
+                        style={{ height: '100%', borderRight: 0 }}
+                    >
+                        <SubMenu
+                            key="sub1"
+                            title={
+                                <span>
+                <Icon type="user" />
+                subnav 1
+              </span>
+                            }
+                        >
+                            <Menu.Item key="1">option1</Menu.Item>
+                            <Menu.Item key="2">option2</Menu.Item>
+                            <Menu.Item key="3">option3</Menu.Item>
+                            <Menu.Item key="4">option4</Menu.Item>
+                        </SubMenu>
+                        <SubMenu
+                            key="sub2"
+                            title={
+                                <span>
+                <Icon type="laptop" />
+                subnav 2
+              </span>
+                            }
+                        >
+                            <Menu.Item key="5">option5</Menu.Item>
+                            <Menu.Item key="6">option6</Menu.Item>
+                            <Menu.Item key="7">option7</Menu.Item>
+                            <Menu.Item key="8">option8</Menu.Item>
+                        </SubMenu>
+                        <SubMenu
+                            key="sub3"
+                            title={
+                                <span>
+                <Icon type="notification" />
+                subnav 3
+              </span>
+                            }
+                        >
+                            <Menu.Item key="9">option9</Menu.Item>
+                            <Menu.Item key="10">option10</Menu.Item>
+                            <Menu.Item key="11">option11</Menu.Item>
+                            <Menu.Item key="12">option12</Menu.Item>
+                        </SubMenu>
+                    </Menu>
+                </Sider>
+                <Layout style={{ padding: '0 24px 24px' }}>
+                    <Breadcrumb style={{ margin: '16px 0' }}>
+                        <Breadcrumb.Item>Home</Breadcrumb.Item>
+                        <Breadcrumb.Item>List</Breadcrumb.Item>
+                        <Breadcrumb.Item>App</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <Content
+                        style={{
+                            background: '#fff',
+                            padding: 24,
+                            margin: 0,
+                            minHeight: 280,
+                        }}
+                    >
+                        Content
+                    </Content>
+                </Layout>
+            </Layout>
+        </Layout>
     );
 }
 
