@@ -23,7 +23,7 @@ function App() {
                     >
                         <Menu.Item key="1">
                             <Link to="/professor">
-                                교수 목록
+                                교수 목록입니다.
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="2">
